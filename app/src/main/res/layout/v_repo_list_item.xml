@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/itemSelectableArea"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="?selectableItemBackground">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minHeight="@dimen/list_item_height"
+        android:paddingRight="@dimen/size_medium_plus"
+        android:paddingLeft="@dimen/size_medium"
+        android:orientation="horizontal"
+        tools:ignore="RtlHardcoded">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/owner_image"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+            android:layout_gravity="center"
+            android:layout_marginRight="@dimen/size_large"
+            android:layout_marginEnd="@dimen/size_large"
+            android:scaleType="centerCrop"
+            tools:ignore="ContentDescription" />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingTop="15dp"
+            android:paddingBottom="@dimen/size_medium"
+            android:paddingRight="@dimen/size_small"
+            android:layout_weight="1"
+            tools:ignore="RtlSymmetry">
+
+            <TextView
+                android:id="@+id/repo_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:textColor="@color/text_primary"
+                android:textSize="@dimen/text_size_large"
+                android:maxLines="1" />
+
+            <TextView
+                android:id="@+id/owner_name"
+                android:layout_marginTop="3dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:textSize="@dimen/text_size_small"
+                android:textColor="@color/text_secondary"
+                android:maxLines="1" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <View
+        android:id="@+id/divider"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/divider"/>
+
+</LinearLayout>

@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">ListCase</string>
+    <string name="error_loading_repositories">Error loading repositories</string>
+    <string name="error_connection_exception">No Internet connection</string>
+</resources>
