@@ -27,6 +27,10 @@ import java.util.List;
 public interface GitReposListView extends MvpView {
 
     void addTopAndroidReposListItems(@NonNull List<GitRepoModel> gitRepoModelsToAdd);
+    void refreshListItems(@NonNull List<GitRepoModel> newGitRepoModels);
+    void enableSwipeToRefresh();
+    void disableSwipeToRefresh();
+    void hideSwipeToRefreshLoading();
     void showLoading();
     void hideLoading();
     void showMessage(@StringRes int stringResId);

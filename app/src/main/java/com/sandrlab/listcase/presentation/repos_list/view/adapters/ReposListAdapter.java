@@ -35,13 +35,19 @@ import java.util.List;
 public class ReposListAdapter extends RecyclerView.Adapter<ReposListAdapter.ViewHolder> {
 
     private Context context;
-    private List<GitRepoModel> gitRepoModels = new ArrayList<>();
+    private final List<GitRepoModel> gitRepoModels = new ArrayList<>();
 
     public ReposListAdapter(@NonNull Context context) {
         this.context = context;
     }
 
     public void addData(@NonNull List<GitRepoModel> newData) {
+        gitRepoModels.addAll(newData);
+        notifyDataSetChanged();
+    }
+
+    public void refreshData(@NonNull List<GitRepoModel> newData) {
+        gitRepoModels.clear();
         gitRepoModels.addAll(newData);
         notifyDataSetChanged();
     }

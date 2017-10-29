@@ -55,11 +55,12 @@ public class GitReposListPresenter extends MvpPresenter<GitReposListView> {
         }
     }
 
-    public void subscribeForDataUpdate(boolean restored) {
+    public void subscribeForDataUpdate(boolean forceImmediateUpdate) {
         Disposable disposable = scrollProcessor
                 .onBackpressureDrop()
                 .concatMap(page -> {
                     loading = true;
+                    getViewState().disableSwipeToRefresh();
                     getViewState().showLoading();
                     return gitReposListInteractor.getTopAndroidRepos(page)
                             .subscribeOn(Schedulers.io())
@@ -70,15 +71,37 @@ public class GitReposListPresenter extends MvpPresenter<GitReposListView> {
                     getViewState().addTopAndroidReposListItems(repos);
                     loading = false;
                     getViewState().hideLoading();
+                    getViewState().enableSwipeToRefresh();
                 }, throwable -> getViewState().showMessage(R.string.error_loading_repositories));
         compositeDisposable.add(disposable);
 
-        if (!restored) {
+        if (forceImmediateUpdate) {
             scrollProcessor.onNext(pageNumber);
         }
     }
 
     public void unsubscribeFromDataUpdate() {
         compositeDisposable.clear();
+    }
+
+    public void onRefreshTriggered() {
+        unsubscribeFromDataUpdate();
+        loading = false;
+        final int FIRST_PAGE = 1;
+        Disposable disposable = gitReposListInteractor.getTopAndroidRepos(FIRST_PAGE)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(repos -> {
+                    getViewState().refreshListItems(repos);
+                    getViewState().hideSwipeToRefreshLoading();
+                    getViewState().showMessage(R.string.msg_refreshed);
+                    pageNumber = 1;
+                    subscribeForDataUpdate(false);
+                }, throwable -> {
+                    getViewState().showMessage(R.string.error_loading_repositories);
+                    getViewState().hideSwipeToRefreshLoading();
+                    subscribeForDataUpdate(false);
+                });
+        compositeDisposable.add(disposable);
     }
 }

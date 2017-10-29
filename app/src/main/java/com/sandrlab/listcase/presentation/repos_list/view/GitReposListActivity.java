@@ -17,6 +17,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.StringRes;
 import android.support.design.widget.Snackbar;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -47,6 +48,7 @@ public class GitReposListActivity extends MvpAppCompatActivity implements GitRep
     private RecyclerView reposList;
     private ReposListAdapter reposListAdapter;
     private LinearLayoutManager layoutManager;
+    private SwipeRefreshLayout swipeRefreshLayout;
 
     @ProvidePresenter
     GitReposListPresenter providePresenter() {
@@ -58,7 +60,7 @@ public class GitReposListActivity extends MvpAppCompatActivity implements GitRep
         ComponentManager.getInstance().getReposListComponent().inject(this);
         super.onCreate(savedInstanceState);
         initUI();
-        gitReposListPresenter.subscribeForDataUpdate(savedInstanceState != null);
+        gitReposListPresenter.subscribeForDataUpdate(savedInstanceState == null);
     }
 
     @Override
@@ -78,6 +80,9 @@ public class GitReposListActivity extends MvpAppCompatActivity implements GitRep
         layoutManager = new LinearLayoutManager(this);
         reposList.setLayoutManager(layoutManager);
         reposList.setAdapter(reposListAdapter);
+        swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_refresh);
+        swipeRefreshLayout.setOnRefreshListener(() -> gitReposListPresenter.onRefreshTriggered());
+
         setUpOnScrollListener();
     }
 
@@ -85,6 +90,26 @@ public class GitReposListActivity extends MvpAppCompatActivity implements GitRep
     public void addTopAndroidReposListItems(@NonNull List<GitRepoModel> gitRepoModelsToAdd) {
         reposList.setVisibility(View.VISIBLE);
         reposListAdapter.addData(gitRepoModelsToAdd);
+    }
+
+    @Override
+    public void refreshListItems(@NonNull List<GitRepoModel> newGitRepoModels) {
+        reposListAdapter.refreshData(newGitRepoModels);
+    }
+
+    @Override
+    public void enableSwipeToRefresh() {
+        swipeRefreshLayout.setEnabled(true);
+    }
+
+    @Override
+    public void disableSwipeToRefresh() {
+        swipeRefreshLayout.setEnabled(false);
+    }
+
+    @Override
+    public void hideSwipeToRefreshLoading() {
+        swipeRefreshLayout.setRefreshing(false);
     }
 
     @Override
