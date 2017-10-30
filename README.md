@@ -14,6 +14,7 @@ In this example you can find how to:
 ## Application description
 
 The application retrieves the list of popular Android repositories from GitHub:
+
 ![Alt text](/screenshot.png?raw=true "ListCase screenshot")
 
 Project details web page is opened on list item click. 
