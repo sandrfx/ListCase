@@ -22,6 +22,7 @@ import com.sandrlab.listcase.repositories.GitReposRepository;
 
 import dagger.Module;
 import dagger.Provides;
+import ru.terrakok.cicerone.Router;
 
 /**
  * @author Alexander Bilchuk (a.bilchuk@sandrlab.com)
@@ -39,7 +40,8 @@ public class ReposListModule {
     @Provides
     @NonNull
     @ReposListScope
-    GitReposListPresenter provideTopAndroidReposPresenter(@NonNull GitReposListInteractor gitReposListInteractor) {
-        return new GitReposListPresenter(gitReposListInteractor);
+    GitReposListPresenter provideTopAndroidReposPresenter(@NonNull GitReposListInteractor gitReposListInteractor,
+                                                          @NonNull Router router) {
+        return new GitReposListPresenter(gitReposListInteractor, router);
     }
 }

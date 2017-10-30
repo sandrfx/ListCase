@@ -11,24 +11,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.sandrlab.listcase.di.app;
-
-import com.sandrlab.listcase.repositories.GitReposRepository;
-
-import javax.inject.Singleton;
-
-import dagger.Component;
-import ru.terrakok.cicerone.NavigatorHolder;
-import ru.terrakok.cicerone.Router;
+package com.sandrlab.listcase.presentation.navigation;
 
 /**
  * @author Alexander Bilchuk (a.bilchuk@sandrlab.com)
  */
-@Singleton
-@Component(modules = { AppModule.class, NavigationModule.class, NetworkModule.class })
-public interface AppComponent {
+public final class NavigationRouts {
 
-    GitReposRepository gitReposRepository();
-    NavigatorHolder navigationHolder();
-    Router router();
+    public static final String REPO_DETAILS = "Repo details";
 }

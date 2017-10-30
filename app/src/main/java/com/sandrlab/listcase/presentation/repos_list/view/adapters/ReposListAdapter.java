@@ -24,6 +24,7 @@ import android.widget.TextView;
 
 import com.sandrlab.listcase.R;
 import com.sandrlab.listcase.models.GitRepoModel;
+import com.sandrlab.listcase.presentation.repos_list.presenter.GitReposListPresenter;
 import com.sandrlab.listcase.presentation.utils.ImageUtils;
 
 import java.util.ArrayList;
@@ -34,11 +35,13 @@ import java.util.List;
  */
 public class ReposListAdapter extends RecyclerView.Adapter<ReposListAdapter.ViewHolder> {
 
-    private Context context;
+    private final Context context;
+    private final GitReposListPresenter presenter;
     private final List<GitRepoModel> gitRepoModels = new ArrayList<>();
 
-    public ReposListAdapter(@NonNull Context context) {
+    public ReposListAdapter(@NonNull Context context, @NonNull GitReposListPresenter presenter) {
         this.context = context;
+        this.presenter = presenter;
     }
 
     public void addData(@NonNull List<GitRepoModel> newData) {
@@ -66,6 +69,7 @@ public class ReposListAdapter extends RecyclerView.Adapter<ReposListAdapter.View
         holder.repoName.setText(model.getName());
         holder.ownerName.setText(model.getOwner());
         ImageUtils.displayImageFromURL(context, model.getAvatarUrl(), holder.ownerImage);
+        holder.clickableArea.setOnClickListener(view -> presenter.onRepoListItemClick(model));
     }
 
     @Override
@@ -75,12 +79,14 @@ public class ReposListAdapter extends RecyclerView.Adapter<ReposListAdapter.View
 
     static class ViewHolder extends RecyclerView.ViewHolder {
 
+        View clickableArea;
         TextView repoName;
         TextView ownerName;
         ImageView ownerImage;
 
         public ViewHolder(View itemView) {
             super(itemView);
+            clickableArea = itemView.findViewById(R.id.clickable_area);
             repoName = itemView.findViewById(R.id.repo_name);
             ownerName = itemView.findViewById(R.id.owner_name);
             ownerImage = itemView.findViewById(R.id.owner_image);

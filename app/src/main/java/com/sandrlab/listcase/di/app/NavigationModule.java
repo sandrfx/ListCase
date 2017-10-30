@@ -13,22 +13,40 @@
  */
 package com.sandrlab.listcase.di.app;
 
-import com.sandrlab.listcase.repositories.GitReposRepository;
+import android.support.annotation.NonNull;
+
+import com.sandrlab.listcase.ListCaseApp;
 
 import javax.inject.Singleton;
 
-import dagger.Component;
+import dagger.Module;
+import dagger.Provides;
+import ru.terrakok.cicerone.Cicerone;
 import ru.terrakok.cicerone.NavigatorHolder;
 import ru.terrakok.cicerone.Router;
 
 /**
  * @author Alexander Bilchuk (a.bilchuk@sandrlab.com)
  */
-@Singleton
-@Component(modules = { AppModule.class, NavigationModule.class, NetworkModule.class })
-public interface AppComponent {
+@Module
+public class NavigationModule {
+    private Cicerone<Router> cicerone;
 
-    GitReposRepository gitReposRepository();
-    NavigatorHolder navigationHolder();
-    Router router();
+    public NavigationModule() {
+        cicerone = Cicerone.create();
+    }
+
+    @Provides
+    @NonNull
+    @Singleton
+    Router provideRouter() {
+        return cicerone.getRouter();
+    }
+
+    @Provides
+    @NonNull
+    @Singleton
+    NavigatorHolder provideNavigatorHolder() {
+        return cicerone.getNavigatorHolder();
+    }
 }

@@ -13,6 +13,9 @@
  */
 package com.sandrlab.listcase.presentation.repos_list.view;
 
+import android.content.ActivityNotFoundException;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.StringRes;
@@ -28,12 +31,18 @@ import com.arellomobile.mvp.presenter.ProvidePresenter;
 import com.sandrlab.listcase.R;
 import com.sandrlab.listcase.di.ComponentManager;
 import com.sandrlab.listcase.models.GitRepoModel;
+import com.sandrlab.listcase.presentation.navigation.NavigationRouts;
 import com.sandrlab.listcase.presentation.repos_list.presenter.GitReposListPresenter;
 import com.sandrlab.listcase.presentation.repos_list.view.adapters.ReposListAdapter;
 
 import java.util.List;
 
 import javax.inject.Inject;
+
+import ru.terrakok.cicerone.Navigator;
+import ru.terrakok.cicerone.NavigatorHolder;
+import ru.terrakok.cicerone.commands.Forward;
+import timber.log.Timber;
 
 /**
  * @author Alexander Bilchuk (a.bilchuk@sandrlab.com)
@@ -43,6 +52,9 @@ public class GitReposListActivity extends MvpAppCompatActivity implements GitRep
     @Inject
     @InjectPresenter
     GitReposListPresenter gitReposListPresenter;
+
+    @Inject
+    NavigatorHolder navigatorHolder;
 
     private View progressBar;
     private RecyclerView reposList;
@@ -64,6 +76,18 @@ public class GitReposListActivity extends MvpAppCompatActivity implements GitRep
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        navigatorHolder.setNavigator(navigator);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        navigatorHolder.removeNavigator();
+    }
+
+    @Override
     protected void onDestroy() {
         gitReposListPresenter.unsubscribeFromDataUpdate();
         if (isFinishing()) {
@@ -76,7 +100,7 @@ public class GitReposListActivity extends MvpAppCompatActivity implements GitRep
         setContentView(R.layout.ac_top_android_repos_list);
         progressBar = findViewById(R.id.progress_bar);
         reposList = (RecyclerView) findViewById(R.id.repos_list);
-        reposListAdapter = new ReposListAdapter(this);
+        reposListAdapter = new ReposListAdapter(this, gitReposListPresenter);
         layoutManager = new LinearLayoutManager(this);
         reposList.setLayoutManager(layoutManager);
         reposList.setAdapter(reposListAdapter);
@@ -139,4 +163,19 @@ public class GitReposListActivity extends MvpAppCompatActivity implements GitRep
             }
         });
     }
+
+    private Navigator navigator = command -> {
+        if (Forward.class.isInstance(command)) {
+            Forward forwardCommand = ((Forward) command);
+            if (NavigationRouts.REPO_DETAILS.equals(forwardCommand.getScreenKey())) {
+                Intent browserIntent = new Intent(Intent.ACTION_VIEW,
+                        Uri.parse(forwardCommand.getTransitionData().toString()));
+                try {
+                    startActivity(browserIntent);
+                } catch (ActivityNotFoundException e) {
+                    Timber.e(e.getMessage());
+                }
+            }
+        }
+    };
 }

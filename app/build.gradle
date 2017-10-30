@@ -50,6 +50,8 @@ dependencies {
     compile 'com.arello-mobile:moxy:1.5.3'
     annotationProcessor 'com.arello-mobile:moxy-compiler:1.5.3'
     compile 'com.arello-mobile:moxy-app-compat:1.5.3'
+    // Navigation
+    compile 'ru.terrakok.cicerone:cicerone:2.1.0'
     // Timber
     compile 'com.jakewharton.timber:timber:4.5.1'
     // UI components

@@ -19,6 +19,8 @@ import com.arellomobile.mvp.InjectViewState;
 import com.arellomobile.mvp.MvpPresenter;
 import com.sandrlab.listcase.R;
 import com.sandrlab.listcase.domain.repos_list.GitReposListInteractor;
+import com.sandrlab.listcase.models.GitRepoModel;
+import com.sandrlab.listcase.presentation.navigation.NavigationRouts;
 import com.sandrlab.listcase.presentation.repos_list.view.GitReposListView;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -26,6 +28,7 @@ import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.processors.PublishProcessor;
 import io.reactivex.schedulers.Schedulers;
+import ru.terrakok.cicerone.Router;
 
 /**
  * @author Alexander Bilchuk (a.bilchuk@sandrlab.com)
@@ -42,9 +45,12 @@ public class GitReposListPresenter extends MvpPresenter<GitReposListView> {
     private PublishProcessor<Integer> scrollProcessor = PublishProcessor.create();
 
     private final GitReposListInteractor gitReposListInteractor;
+    private final Router router;
 
-    public GitReposListPresenter(@NonNull GitReposListInteractor gitReposListInteractor) {
+    public GitReposListPresenter(@NonNull GitReposListInteractor gitReposListInteractor,
+                                 @NonNull Router router) {
         this.gitReposListInteractor = gitReposListInteractor;
+        this.router = router;
     }
 
     public synchronized void onScrolled(int count, int lastVisibleItemIndex) {
@@ -103,5 +109,9 @@ public class GitReposListPresenter extends MvpPresenter<GitReposListView> {
                     subscribeForDataUpdate(false);
                 });
         compositeDisposable.add(disposable);
+    }
+
+    public void onRepoListItemClick(GitRepoModel model) {
+        router.navigateTo(NavigationRouts.REPO_DETAILS, model.getHtmlUrl());
     }
 }

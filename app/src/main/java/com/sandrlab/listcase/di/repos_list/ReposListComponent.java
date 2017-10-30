@@ -17,6 +17,7 @@ import com.sandrlab.listcase.di.app.AppComponent;
 import com.sandrlab.listcase.presentation.repos_list.view.GitReposListActivity;
 
 import dagger.Component;
+import ru.terrakok.cicerone.NavigatorHolder;
 
 /**
  * @author Alexander Bilchuk (a.bilchuk@sandrlab.com)
@@ -28,4 +29,5 @@ import dagger.Component;
 public interface ReposListComponent {
 
     void inject(GitReposListActivity activity);
+    void inject(NavigatorHolder navigatorHolder);
 }
