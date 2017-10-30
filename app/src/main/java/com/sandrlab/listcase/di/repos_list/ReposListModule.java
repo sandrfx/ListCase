@@ -28,7 +28,7 @@ import ru.terrakok.cicerone.Router;
  * @author Alexander Bilchuk (a.bilchuk@sandrlab.com)
  */
 @Module
-public class ReposListModule {
+public final class ReposListModule {
 
     @Provides
     @NonNull

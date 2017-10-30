@@ -29,7 +29,8 @@ import ru.terrakok.cicerone.Router;
  * @author Alexander Bilchuk (a.bilchuk@sandrlab.com)
  */
 @Module
-public class NavigationModule {
+public final class NavigationModule {
+
     private Cicerone<Router> cicerone;
 
     public NavigationModule() {

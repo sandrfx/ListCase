@@ -19,4 +19,6 @@ package com.sandrlab.listcase.presentation.navigation;
 public final class NavigationRouts {
 
     public static final String REPO_DETAILS = "Repo details";
+
+    private NavigationRouts() {}
 }
