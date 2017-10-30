@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/clickable_area"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -12,15 +13,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:minHeight="@dimen/list_item_height"
-        android:paddingRight="@dimen/size_medium_plus"
+        android:paddingRight="@dimen/size_medium"
         android:paddingLeft="@dimen/size_medium"
-        android:orientation="horizontal"
-        tools:ignore="RtlHardcoded">
+        android:orientation="horizontal">
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/owner_image"
-            android:layout_width="56dp"
-            android:layout_height="56dp"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
             android:layout_gravity="center"
             android:layout_marginRight="@dimen/size_large"
             android:layout_marginEnd="@dimen/size_large"
@@ -28,11 +28,10 @@
             tools:ignore="ContentDescription" />
 
         <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:orientation="vertical"
-            android:paddingTop="15dp"
-            android:paddingBottom="@dimen/size_medium"
+            android:gravity="center_vertical"
             android:paddingRight="@dimen/size_small"
             tools:ignore="RtlSymmetry">
 
@@ -42,18 +41,68 @@
                 android:layout_height="wrap_content"
                 android:ellipsize="end"
                 android:textColor="@color/text_primary"
-                android:textSize="@dimen/text_size_large"
+                android:textSize="@dimen/text_size_medium"
                 android:maxLines="1" />
 
-            <TextView
-                android:id="@+id/owner_name"
-                android:layout_marginTop="3dp"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:ellipsize="end"
-                android:textSize="@dimen/text_size_small"
-                android:textColor="@color/text_secondary"
-                android:maxLines="1" />
+                android:orientation="horizontal"
+                android:paddingTop="3dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/text_size_small"
+                    android:textStyle="italic"
+                    android:textColor="@color/text_secondary"
+                    android:text="@string/by"/>
+
+                <TextView
+                    android:layout_marginLeft="@dimen/size_xsmall"
+                    android:id="@+id/owner_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textStyle="italic"
+                    android:ellipsize="end"
+                    android:textSize="@dimen/text_size_small"
+                    android:textColor="@color/text_secondary"
+                    android:maxLines="1" />
+
+                <Space
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:paddingLeft="@dimen/size_xxsmall"
+                    android:paddingRight="@dimen/size_xxsmall"
+                    android:background="@drawable/bg_stars">
+
+                    <TextView
+                        android:id="@+id/stars_count"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:ellipsize="end"
+                        android:textSize="@dimen/text_size_xsmall"
+                        android:textColor="@color/text_white"
+                        android:maxLines="1" />
+
+                    <ImageView
+                        android:layout_gravity="center"
+                        app:srcCompat="@drawable/ic_star_black_24dp"
+                        android:layout_marginLeft="@dimen/size_xxsmall"
+                        android:tint="@color/text_white"
+                        android:layout_width="14dp"
+                        android:layout_height="14dp"
+                        tools:ignore="ContentDescription" />
+
+                </LinearLayout>
+
+            </LinearLayout>
 
         </LinearLayout>
 

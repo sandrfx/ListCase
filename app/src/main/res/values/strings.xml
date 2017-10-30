@@ -3,4 +3,5 @@
     <string name="msg_refreshed">Refreshed</string>
     <string name="error_loading_repositories">Error loading repositories</string>
     <string name="error_connection_exception">No Internet connection</string>
+    <string name="by">by</string>
 </resources>

@@ -70,6 +70,7 @@ public class ReposListAdapter extends RecyclerView.Adapter<ReposListAdapter.View
         holder.ownerName.setText(model.getOwner());
         ImageUtils.displayImageFromURL(context, model.getAvatarUrl(), holder.ownerImage);
         holder.clickableArea.setOnClickListener(view -> presenter.onRepoListItemClick(model));
+        holder.starsCount.setText(String.valueOf(model.getStars()));
     }
 
     @Override
@@ -83,6 +84,7 @@ public class ReposListAdapter extends RecyclerView.Adapter<ReposListAdapter.View
         TextView repoName;
         TextView ownerName;
         ImageView ownerImage;
+        TextView starsCount;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -90,6 +92,7 @@ public class ReposListAdapter extends RecyclerView.Adapter<ReposListAdapter.View
             repoName = itemView.findViewById(R.id.repo_name);
             ownerName = itemView.findViewById(R.id.owner_name);
             ownerImage = itemView.findViewById(R.id.owner_image);
+            starsCount = itemView.findViewById(R.id.stars_count);
         }
     }
 }
