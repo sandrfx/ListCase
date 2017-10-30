@@ -118,6 +118,7 @@ public class GitReposListActivity extends MvpAppCompatActivity implements GitRep
 
     @Override
     public void refreshListItems(@NonNull List<GitRepoModel> newGitRepoModels) {
+        reposList.setVisibility(View.VISIBLE);
         reposListAdapter.refreshData(newGitRepoModels);
     }
 
