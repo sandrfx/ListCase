@@ -56,8 +56,8 @@ public class GitReposListPresenter extends MvpPresenter<GitReposListView> {
     public synchronized void onScrolled(int count, int lastVisibleItemIndex) {
         if (!loading && count <= (lastVisibleItemIndex + SCROLL_THRESHOLD)) {
             pageNumber++;
-            scrollProcessor.onNext(pageNumber);
             loading = true;
+            scrollProcessor.onNext(pageNumber);
         }
     }
 
@@ -95,9 +95,9 @@ public class GitReposListPresenter extends MvpPresenter<GitReposListView> {
         compositeDisposable.clear();
     }
 
-    public void onRefreshTriggered() {
+    public synchronized void onRefreshTriggered() {
         unsubscribeFromDataUpdate();
-        loading = false;
+        loading = true;
         final int FIRST_PAGE = 1;
         Disposable disposable = gitReposListInteractor.getTopAndroidRepos(FIRST_PAGE)
                 .subscribeOn(Schedulers.io())
@@ -107,8 +107,10 @@ public class GitReposListPresenter extends MvpPresenter<GitReposListView> {
                     getViewState().hideSwipeToRefreshLoading();
                     getViewState().showMessage(R.string.msg_refreshed);
                     pageNumber = 1;
+                    loading = false;
                     subscribeForDataUpdate(false);
                 }, throwable -> {
+                    loading = false;
                     getViewState().showMessage(R.string.error_loading_repositories);
                     getViewState().hideSwipeToRefreshLoading();
                     subscribeForDataUpdate(false);
