@@ -78,7 +78,12 @@ public class GitReposListPresenter extends MvpPresenter<GitReposListView> {
                     loading = false;
                     getViewState().hideLoading();
                     getViewState().enableSwipeToRefresh();
-                }, throwable -> getViewState().showMessage(R.string.error_loading_repositories));
+                }, throwable -> {
+                    loading = false;
+                    getViewState().hideLoading();
+                    getViewState().enableSwipeToRefresh();
+                    getViewState().showMessage(R.string.error_loading_repositories);
+                });
         compositeDisposable.add(disposable);
 
         if (forceImmediateUpdate) {
