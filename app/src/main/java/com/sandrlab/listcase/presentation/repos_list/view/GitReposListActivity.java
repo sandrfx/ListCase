@@ -82,8 +82,8 @@ public class GitReposListActivity extends MvpAppCompatActivity implements GitRep
     }
 
     @Override
-    protected void onStop() {
-        super.onStop();
+    protected void onPause() {
+        super.onPause();
         navigatorHolder.removeNavigator();
     }
 
